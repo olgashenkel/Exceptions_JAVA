@@ -9,18 +9,27 @@
  */
 
 
-public class Task_2 {
-    public static void main(String[] args) throws Exception {
-        try (Counter counter = new Counter()) {
-            System.out.println(counter);
-            counter.add();
-            System.out.println(counter);
+import java.io.IOException;
+
+public class Counter implements AutoCloseable{
+    private int count;
+    private boolean closed = false;
+
+    public void add() throws IOException{
+        if (closed){
+            throw new IOException();
         }
-        Counter counter = new Counter();
-        System.out.println(counter);
-        counter.add();
-        System.out.println(counter);
-        counter.close();
-        counter.add();
+        count++;
+    }
+
+
+    @Override
+    public String toString() {
+        return String.valueOf(count);
+    }
+
+    @Override
+    public void close() throws Exception {
+        closed = true;
     }
 }
